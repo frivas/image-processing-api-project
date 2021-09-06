@@ -46,19 +46,16 @@ class App {
       '/api/images',
       validateReqQuery(['filename']),
       async (req: Request, res: Response) => {
-        console.log(
-          path.join(process.cwd(), defaultAssetsDir, defaultThumbsDir)
-        );
         const imageInfo: IImage = {
           filename: '',
           width: 0,
           height: 0
         };
-        console.log(`Views => ${path.join(__dirname, 'views')}`);
-        imageInfo.filename = <string>(<unknown> req.query.filename);
-        imageInfo.width = <number>(<unknown> req.query.width) || defaultImgSize;
+
+        imageInfo.filename = <string>(<unknown>req.query.filename);
+        imageInfo.width = <number>(<unknown>req.query.width) || defaultImgSize;
         imageInfo.height =
-          <number>(<unknown> req.query.height) || defaultImgSize;
+          <number>(<unknown>req.query.height) || defaultImgSize;
         const imgProc = new ImageProcessor(imageInfo);
         const thumbImg: ISharpResult | undefined = await imgProc.resizeImg();
         if (isUndefined(thumbImg)) {
@@ -68,7 +65,6 @@ class App {
               `The file ${imageInfo.filename} doesn't exist. Please, add it to the full directory and try again.`
             );
         } else {
-          // res.send(`${JSON.stringify(thumbImg, null, 2)}`);
           res.render('index', {
             imgInfo: thumbImg.thumbImg,
             imgName: `/${thumbImg.imgName}`

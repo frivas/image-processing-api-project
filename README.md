@@ -2,6 +2,14 @@
 
 ### Comments
 
+- The backend is inside the `api` folder.
+- The scripts available are:
+  - `npm run test` it will transpire and then execute jasmine.
+  - `npm run perfect` it will execute prettier and lint.
+  - `npm run compile` it will transpile the code using `tsc`.
+  - `npm run build` it will clean the `dist/` folder, execute the `perfect`, `compile` and `copy-assets` scripts.
+  - `npm run start` it will start `nodemon`.
+
 - Once I added a script to copy the views to the `dist` folder I started to notice that `tsc` started to copy the entire `src` folder to the `dist` directory and that was causing that I couldn't run `node dist/` command successfully. I just added the folder where the `copyAssets.ts` file was to the `exclude` list folder and that solved the issue.
 - 
 
@@ -60,8 +68,8 @@
 
 ## Suggestions to Make Your Project Stand Out!
 
-- [ ] Add additional processing to accept and output other image formats than JPG.
-- [ ] Modify the thumbnail filename to include the image size to allow for multiple sizes of the same image.
+- [x] Add additional processing to accept and output other image formats than JPG.
+- [x] Modify the thumbnail filename to include the image size to allow for multiple sizes of the same image.
 - [ ] Further explore the options in the Sharp module and add additional processing options.
 - [ ] Add in logging to record when images are processed or accessed.
 - [ ] Create a front-end for uploading more images to the full-size directory.

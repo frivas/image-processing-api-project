@@ -42,7 +42,10 @@ export class ImageProcessor {
         return isEqual(el.split('.')[0], this.imageInfo.filename);
       });
       const imgThumbFilename = thumbFileList.filter((el) => {
-        return isEqual(el.split('.')[0], `${this.imageInfo.filename}_thumb`);
+        return isEqual(
+          el.split('.')[0],
+          `${this.imageInfo.filename}_thumb_${this.imageInfo.width}_${this.imageInfo.height}`
+        );
       });
 
       if (isEqual(imgFullFilename.length, 0)) {
@@ -55,9 +58,9 @@ export class ImageProcessor {
 
       const pathToThumbFile = path.join(
         this.defaultThumbPath,
-        `${imgFullFilename[0].split('.')[0]}_thumb.${
-          imgFullFilename[0].split('.')[1]
-        }`
+        `${imgFullFilename[0].split('.')[0]}_thumb_${this.imageInfo.width}_${
+          this.imageInfo.height
+        }.${imgFullFilename[0].split('.')[1]}`
       );
 
       if (imgThumbFilename.length > 0) {
@@ -79,9 +82,9 @@ export class ImageProcessor {
         if (resultImage) {
           return {
             thumbImg,
-            imgName: `${imgFullFilename[0].split('.')[0]}_thumb.${
-              imgFullFilename[0].split('.')[1]
-            }`
+            imgName: `${imgFullFilename[0].split('.')[0]}_thumb_${
+              this.imageInfo.width
+            }_${this.imageInfo.height}.${imgFullFilename[0].split('.')[1]}`
           };
         }
       }
