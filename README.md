@@ -3,33 +3,81 @@
 ### Comments
 
 - The backend is inside the `api` folder.
+
 - **The scripts available are:**
+  
   - `npm run test` it will transpile and then execute jasmine.
   - `npm run perfect` it will execute prettier and lint.
   - `npm run compile` it will transpile the code using `tsc`.
   - `npm run build` it will clean the `dist/` folder, execute the `perfect`, `compile` and `compile` scripts.
   - `npm run start` it will start `nodemon`  on `src/index.ts`
   - You can also execute `node dist/` to run the app.
+  
 - **Endpoints:**
+  
   - http://localhost:3003/ = Will show a message stating the server is up and running.
+  
   - http://localhost:3003/api/images = Accepts the following query parameters:
+  
     - <filename> : Name of the file without extension that has to be placed in the `full` directory or uploaded through the `upload` endpoint. (Required)
+  
     - <witdh>: It is a number that specifies the width of the thumbnail file to be generated. (Optional. Default 200.)
+  
     - <height>: It is a number that specifies the height of the thumbnail file to be generated. (Optional. Default 200.)
+  
     - This endpoint will return a message stating that a field is missing and it is required.
+  
+    - Sample requests:
+  
+      ```http://localhost:3003/api/images?filename=pollock&width=500&height=300```
+  
+      ```http://localhost:3003/api/images?filename=fjord&width=500```
+  
+      ```http://localhost:3003/api/images?filename=mountfuji&height=300```
+  
+      ```http://localhost:3003/api/images?filename=santamonica```
+  
   - http://localhost:3003/api/images/upload = Will allow you to upload one or more files. It will show messages when:
+  
     - There are no files to upload.
     - Files types are not supported. Only `jpg`, `png` and `jpeg` are supported.
     - Uploading is currently limited to 10 files at the time.
+  
   - http://localhost:3003/api/images/list = Will return a JSON object that contains information about the files in the `thumb` directory.
+  
 - It is possible to create thumbs of the same images on different sizes.
+
 - I had to do a lot of research to write the tests for the uploading endpoint, it is different when uploading 1 file and more than 1.
+
 - There is a logger that shows a message on the console every time an endpoint is visited.
+
 - I have included a `copyAssets.ts ` script that copies all the images and needed files for the tests. 
 
 ### Note to reviewer:
 
 - There is one test I would have loved to include. Testing multiple files upload, however I didn't manage to write the test for that one, I managed to do it for a single valid file, for an invalid file image and for an invalid file. Would you please guide me on this one?
+
+  I wrote what I thought would be a correct test however it fails and I am not entirely sure why it is not working
+
+  ```typescript
+  it('Upload a list of valid image files', async () => {
+      const requestPOST = request.post('/api/images/upload');
+      for (const file of validListFilePath) {
+        requestPOST.attach('files', file);
+      }
+      const response = await requestPOST;
+      expect(response.status).toBe(200);
+      expect(response.text).toEqual(
+        JSON.stringify({
+          message: ['pollock.jpg', 'wassily-kandinsky.jpg']
+        })
+      );
+    });
+  ```
+
+  In fact if I test that endpoint it returns what I expect. Please, notice the order of the items in the array. I also tried with `.toContain()` checking there is a `message` in the response however the result of the test is `Error: Aborted`.
+
+  ![Screen Shot 2021-09-26 at 19.07.32](/Users/francisco/Downloads/Courses/UdacityNanodegree/ImageProcessingAPI/Screen Shot 2021-09-26 at 19.07.32.png)
 
 ## Image Processing API
 
