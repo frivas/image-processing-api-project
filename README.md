@@ -25,6 +25,11 @@
 - It is possible to create thumbs of the same images on different sizes.
 - I had to do a lot of research to write the tests for the uploading endpoint, it is different when uploading 1 file and more than 1.
 - There is a logger that shows a message on the console every time an endpoint is visited.
+- I have included a `copyAssets.ts ` script that copies all the images and needed files for the tests. 
+
+### Note to reviewer:
+
+- There is one test I would have loved to include. Testing multiple files upload, however I didn't manage to write the test for that one, I managed to do it for a single valid file, for an invalid file image and for an invalid file. Would you please guide me on this one?
 
 ## Image Processing API
 
