@@ -5,7 +5,9 @@ const validateReqQuery = (fields: string[]) => {
     for (const field of fields) {
       if (!req.query[field]) {
         // Field isn't present, end request
-        return res.status(400).send(`The field: ${field} is required.`);
+        return res
+          .status(400)
+          .send({ message: `The field: ${field} is required.` });
       }
     }
     next();

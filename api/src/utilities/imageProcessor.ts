@@ -6,7 +6,7 @@ import {
   defaultFullDir,
   defaultThumbsDir,
   ISharpResult
-} from './interfaces';
+} from './Interfaces';
 import isEqual from 'lodash.isequal';
 import sharp from 'sharp';
 
@@ -44,7 +44,7 @@ export class ImageProcessor {
       const imgThumbFilename = thumbFileList.filter((el) => {
         return isEqual(
           el.split('.')[0],
-          `${this.imageInfo.filename}_thumb_${this.imageInfo.width}_${this.imageInfo.height}`
+          `${this.imageInfo.filename}_${this.imageInfo.width}w_${this.imageInfo.height}h_thumb`
         );
       });
 
@@ -58,9 +58,9 @@ export class ImageProcessor {
 
       const pathToThumbFile = path.join(
         this.defaultThumbPath,
-        `${imgFullFilename[0].split('.')[0]}_thumb_${this.imageInfo.width}_${
+        `${imgFullFilename[0].split('.')[0]}_${this.imageInfo.width}w_${
           this.imageInfo.height
-        }.${imgFullFilename[0].split('.')[1]}`
+        }h_thumb.${imgFullFilename[0].split('.')[1]}`
       );
 
       if (imgThumbFilename.length > 0) {
@@ -82,9 +82,11 @@ export class ImageProcessor {
         if (resultImage) {
           return {
             thumbImg,
-            imgName: `${imgFullFilename[0].split('.')[0]}_thumb_${
+            imgName: `${imgFullFilename[0].split('.')[0]}_${
               this.imageInfo.width
-            }_${this.imageInfo.height}.${imgFullFilename[0].split('.')[1]}`
+            }w_${this.imageInfo.height}h_thumb.${
+              imgFullFilename[0].split('.')[1]
+            }`
           };
         }
       }
@@ -98,4 +100,11 @@ export class ImageProcessor {
       fs.readdir(path, (err, content) => (err ? reject(err) : resolve(content)))
     );
   }
+}
+
+export async function getImageMetada(
+  pathToImage: string
+): Promise<sharp.Metadata> {
+  const imageInfo: sharp.Metadata = await sharp(pathToImage).metadata();
+  return imageInfo;
 }

@@ -3,15 +3,15 @@ import app from '../index';
 
 const request = supertest(app);
 
-describe('Check server endpoints', () => {
+describe('Check server GET:/', () => {
   it('Check server is up and running', async () => {
     const response = await request.get('/');
     expect(response.status).toBe(200);
-    expect(response.text).toEqual('Server is Up!');
+    expect(response.text).toEqual(JSON.stringify({ message: 'Server is Up!' }));
   });
 });
 
-describe('Check /api/images endpoints', () => {
+describe('Check GET:/api/images', () => {
   it('Check all parameters of the query are missing', async () => {
     const response = await request.get('/api/images');
     expect(response.status).toBe(400);
@@ -41,5 +41,58 @@ describe('Check /api/images endpoints', () => {
   it('Check correct answer when the filename partially matches an existent one', async () => {
     const response = await request.get('/api/images?filename=mount&width=200');
     expect(response.status).toBe(400);
+  });
+});
+
+describe('Check POST:/api/images/upload', () => {
+  const validFilePath = `${__dirname}/files/pollock.jpg`;
+  const invavalidImageFilePath = `${__dirname}/files/file_example.tiff`;
+  const invalidPDFFIlePath = `${__dirname}/files/sample.pdf`;
+  const validListFilePath = [
+    `${__dirname}/files/pollock.jpg`,
+    `${__dirname}/files/wassily - kandinsky.jpg`
+  ];
+  it('Upload a valid image file', async () => {
+    const response = await request
+      .post('/api/images/upload')
+      .attach('files', validFilePath);
+    expect(response.status).toBe(200);
+    expect(response.text).toEqual(
+      JSON.stringify({
+        message: ['pollock.jpg']
+      })
+    );
+  });
+  it('Upload a list of valid image files', async () => {
+    const requestPOST = request.post('/api/images/upload');
+    for (const file of validListFilePath) {
+      requestPOST.attach('files', file);
+    }
+    const response = await requestPOST;
+    console.log(`Test => ${JSON.stringify(response.text, null, 2)}`);
+    expect(response.status).toBe(200);
+    expect(response.text).toEqual(
+      JSON.stringify({
+        message: ['pollock.jpg', 'wassily-kandinsky.jpg']
+      })
+    );
+  });
+  it('Upload a invalid image file', async () => {
+    const response = await request
+      .post('/api/images/upload')
+      .attach('files', invavalidImageFilePath);
+    expect(response.status).toBe(400);
+    expect(response.text).toEqual(
+      JSON.stringify({ message: 'Only .png, .jpg and .jpeg format allowed!' })
+    );
+  });
+  it('Upload a invalid pdf file', async () => {
+    const response = await request
+      .post('/api/images/upload')
+      .attach('files', invalidPDFFIlePath);
+    expect(response.status).toBe(400);
+    expect(response.text).toEqual(
+      JSON.stringify({ message: 'Only .png, .jpg and .jpeg format allowed!' })
+    );
   });
 });

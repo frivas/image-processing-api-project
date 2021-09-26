@@ -4,6 +4,8 @@ export interface IImage {
   filename: string;
   width: number;
   height: number;
+  format?: string;
+  size?: number;
 }
 
 export interface ISharpResult {

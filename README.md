@@ -3,15 +3,28 @@
 ### Comments
 
 - The backend is inside the `api` folder.
-- The scripts available are:
-  - `npm run test` it will transpire and then execute jasmine.
+- **The scripts available are:**
+  - `npm run test` it will transpile and then execute jasmine.
   - `npm run perfect` it will execute prettier and lint.
   - `npm run compile` it will transpile the code using `tsc`.
-  - `npm run build` it will clean the `dist/` folder, execute the `perfect`, `compile` and `copy-assets` scripts.
-  - `npm run start` it will start `nodemon`.
-
-- Once I added a script to copy the views to the `dist` folder I started to notice that `tsc` started to copy the entire `src` folder to the `dist` directory and that was causing that I couldn't run `node dist/` command successfully. I just added the folder where the `copyAssets.ts` file was to the `exclude` list folder and that solved the issue.
-- 
+  - `npm run build` it will clean the `dist/` folder, execute the `perfect`, `compile` and `compile` scripts.
+  - `npm run start` it will start `nodemon`  on `src/index.ts`
+  - You can also execute `node dist/` to run the app.
+- **Endpoints:**
+  - http://localhost:3003/ = Will show a message stating the server is up and running.
+  - http://localhost:3003/api/images = Accepts the following query parameters:
+    - <filename> : Name of the file without extension that has to be placed in the `full` directory or uploaded through the `upload` endpoint. (Required)
+    - <witdh>: It is a number that specifies the width of the thumbnail file to be generated. (Optional. Default 200.)
+    - <height>: It is a number that specifies the height of the thumbnail file to be generated. (Optional. Default 200.)
+    - This endpoint will return a message stating that a field is missing and it is required.
+  - http://localhost:3003/api/images/upload = Will allow you to upload one or more files. It will show messages when:
+    - There are no files to upload.
+    - Files types are not supported. Only `jpg`, `png` and `jpeg` are supported.
+    - Uploading is currently limited to 10 files at the time.
+  - http://localhost:3003/api/images/list = Will return a JSON object that contains information about the files in the `thumb` directory.
+- It is possible to create thumbs of the same images on different sizes.
+- I had to do a lot of research to write the tests for the uploading endpoint, it is different when uploading 1 file and more than 1.
+- There is a logger that shows a message on the console every time an endpoint is visited.
 
 ## Image Processing API
 
@@ -19,15 +32,15 @@
 
 #### Set up a project structure that promotes scalability
 
-- [ ] Source code is kept separate from compiled code.
-- [ ] All tests should be contained in their own folder.
-- [ ] Separate modules are created for any processing.
+- [x] Source code is kept separate from compiled code.
+- [x] All tests should be contained in their own folder.
+- [x] Separate modules are created for any processing.
 
 #### Set up an npm project
 
-- [ ] Package.json should contain both devDependencies, and dependencies.
-- [ ] Scripts should be created for testing, linting/prettier, starting the server, and compiling TS.
-- [ ] Build script should run without error. 
+- [x] Package.json should contain both devDependencies, and dependencies.
+- [x] Scripts should be created for testing, linting/prettier, starting the server, and compiling TS.
+- [x] Build script should run without error. 
 
 
 
@@ -35,13 +48,13 @@
 
 #### Add and use Express to a node.js project
 
-- [ ] Start script should run without error.
-- [ ] Provided endpoint should open in the browser with status 200.
+- [x] Start script should run without error.
+- [x] Provided endpoint should open in the browser with status 200.
 
 #### Follow middleware documentation to use middleware to create an API
 
-- [ ] Accessing the provided URL with image information should  successfully resize an image and save it to disk on first access, then  pull from disk on subsequent access attempts.
-- [ ] An error message should be provided to the user when an image has failed to process or does not exist.
+- [x] Accessing the provided URL with image information should successfully resize an image and save it to disk on first access, then pull from disk on subsequent access attempts.
+- [x] An error message should be provided to the user when an image has failed to process or does not exist.
 
 
 
@@ -49,29 +62,29 @@
 
 #### Write relevant unit tests with Jasmine and SuperTest to improve code quality and refactoring
 
-- [ ] Test script runs and all tests created pass. 
-- [ ] There is at least 1 test per endpoint and at least one test for image processing. 
+- [x] Test script runs and all tests created pass. 
+- [x] There is at least 1 test per endpoint and at least one test for image processing. 
 
 #### Utilize TypeScript to avoid errors and improve maintainability
 
-- [ ] All code in the SRC folder should use the .ts filetype.
-- [ ] Functions should include typed parameters and return types and not use the `any` type.
-- [ ] Import and Export used for modules.
-- [ ] Build script should successfully compile TS to JS.
+- [x] All code in the SRC folder should use the .ts filetype.
+- [x] Functions should include typed parameters and return types and not use the `any` type.
+- [x] Import and Export used for modules.
+- [x] Build script should successfully compile TS to JS.
 
 #### Write well-formatted linted code
 
-- [ ] Prettier and Lint scripts should run without producing any error messages.
-- [ ] An error message should be provided to the user when an image has failed to process or does not exist.
+- [x] Prettier and Lint scripts should run without producing any error messages.
+- [x] An error message should be provided to the user when an image has failed to process or does not exist.
 
 
 
 ## Suggestions to Make Your Project Stand Out!
 
-- [x] Add additional processing to accept and output other image formats than JPG.
+- [ ] Add additional processing to accept and output other image formats than JPG.
 - [x] Modify the thumbnail filename to include the image size to allow for multiple sizes of the same image.
 - [ ] Further explore the options in the Sharp module and add additional processing options.
-- [ ] Add in logging to record when images are processed or accessed.
+- [x] Add in logging to record when images are processed or accessed.
 - [ ] Create a front-end for uploading more images to the full-size directory.
 - [ ] Create a front-end that displays a thumbnail directory.
 - [ ] Create a front-end that allows for the selection of how to process a selected image.
