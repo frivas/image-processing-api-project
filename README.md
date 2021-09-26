@@ -77,7 +77,7 @@
 
   In fact if I test that endpoint it returns what I expect. Please, notice the order of the items in the array. I also tried with `.toContain()` checking there is a `message` in the response however the result of the test is `Error: Aborted`.
 
-  ![Screen Shot 2021-09-26 at 19.07.32](Screen Shot 2021-09-26 at 19.07.32.png)
+  ![Postman](postman.png)
 
 ## Image Processing API
 
