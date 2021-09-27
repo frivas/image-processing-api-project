@@ -48,10 +48,10 @@ describe('Check POST:/api/images/upload', () => {
   const validFilePath = `${__dirname}/files/pollock.jpg`;
   const invavalidImageFilePath = `${__dirname}/files/file_example.tiff`;
   const invalidPDFFIlePath = `${__dirname}/files/sample.pdf`;
-  // const validListFilePath = [
-  //   `${__dirname}/files/pollock.jpg`,
-  //   `${__dirname}/files/wassily - kandinsky.jpg`
-  // ];
+  const validListFilePath = [
+    `${__dirname}/files/pollock.jpg`,
+    `${__dirname}/files/wassily-kandinsky.jpg`
+  ];
   it('Upload a valid image file', async () => {
     const response = await request
       .post('/api/images/upload')
@@ -63,15 +63,15 @@ describe('Check POST:/api/images/upload', () => {
       })
     );
   });
-  // it('Upload a list of valid image files', async () => {
-  //   const requestPOST = request.post('/api/images/upload');
-  //   for (const file of validListFilePath) {
-  //     requestPOST.attach('files', file);
-  //   }
-  //   const response = await requestPOST;
-  //   expect(response.status).toBe(200);
-  //   expect(response.text).toContain('message');
-  // });
+  it('Upload a list of valid image files', async () => {
+    const requestPOST = request.post('/api/images/upload');
+    for (const file of validListFilePath) {
+      requestPOST.attach('files', file);
+    }
+    const response = await requestPOST;
+    expect(response.status).toBe(200);
+    expect(response.text).toContain('message');
+  });
   it('Upload a invalid image file', async () => {
     const response = await request
       .post('/api/images/upload')
