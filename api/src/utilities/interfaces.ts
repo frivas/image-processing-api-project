@@ -13,6 +13,16 @@ export interface ISharpResult {
   imgName: string;
 }
 
+export interface IQueryParamsInfo {
+  name: string;
+  type: string;
+  mandatory: boolean;
+}
+
+export interface IQueryParams {
+  fields: IQueryParamsInfo[];
+}
+
 export const defaultImgSize = 200;
 export const defaultAssetsDir = 'assets';
 export const defaultFullDir = 'full';

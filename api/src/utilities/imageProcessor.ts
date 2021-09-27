@@ -18,13 +18,13 @@ export class ImageProcessor {
   constructor(imageInfo: IImage) {
     this.imageInfo = imageInfo;
     this.defaultFullPath = path.join(
-      process.cwd(),
-      defaultAssetsDir,
+      __dirname,
+      `../../${defaultAssetsDir}`,
       defaultFullDir
     );
     this.defaultThumbPath = path.join(
-      process.cwd(),
-      defaultAssetsDir,
+      __dirname,
+      `../../${defaultAssetsDir}`,
       defaultThumbsDir
     );
   }
@@ -58,8 +58,7 @@ export class ImageProcessor {
 
       const pathToThumbFile = path.join(
         this.defaultThumbPath,
-        `${imgFullFilename[0].split('.')[0]}_${this.imageInfo.width}w_${
-          this.imageInfo.height
+        `${imgFullFilename[0].split('.')[0]}_${this.imageInfo.width}w_${this.imageInfo.height
         }h_thumb.${imgFullFilename[0].split('.')[1]}`
       );
 
@@ -82,11 +81,9 @@ export class ImageProcessor {
         if (resultImage) {
           return {
             thumbImg,
-            imgName: `${imgFullFilename[0].split('.')[0]}_${
-              this.imageInfo.width
-            }w_${this.imageInfo.height}h_thumb.${
-              imgFullFilename[0].split('.')[1]
-            }`
+            imgName: `${imgFullFilename[0].split('.')[0]}_${this.imageInfo.width
+              }w_${this.imageInfo.height}h_thumb.${imgFullFilename[0].split('.')[1]
+              }`
           };
         }
       }
